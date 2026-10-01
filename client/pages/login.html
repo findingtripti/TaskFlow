@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow – Sign In</title>
+  <!-- Prevent theme flash -->
+  <script>
+    (function(){var t=localStorage.getItem('tf_theme');if(t==='dark')document.documentElement.classList.add('dark-mode');})();
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<!-- Theme toggle (absolute positioned) -->
+<button class="theme-toggle auth-theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark/light mode" style="position:fixed;top:1.25rem;right:1.25rem;z-index:100;">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+</button>
+
+<div class="auth-page">
+  <!-- ── Left Panel ── -->
+  <div class="auth-left">
+    <div class="auth-brand">
+      <div class="auth-brand-icon">TF</div>
+      <span class="auth-brand-name">TaskFlow</span>
+    </div>
+
+    <h2 class="auth-tagline">Manage tasks.<br/><span>Stay productive.</span></h2>
+    <p class="auth-desc">A clean, modern task management platform built for professionals and teams who value clarity and focus.</p>
+
+    <div class="auth-features">
+      <div class="auth-feature-item">
+        <div class="auth-feature-dot"></div>
+        Organize tasks by priority, status &amp; category
+      </div>
+      <div class="auth-feature-item">
+        <div class="auth-feature-dot"></div>
+        Track deadlines with smart due date alerts
+      </div>
+      <div class="auth-feature-item">
+        <div class="auth-feature-dot"></div>
+        Admin dashboard with full user management
+      </div>
+      <div class="auth-feature-item">
+        <div class="auth-feature-dot"></div>
+        Dark mode &amp; responsive design built-in
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Right Panel (Form) ── -->
+  <div class="auth-right">
+    <div class="auth-right-inner">
+      <div class="auth-header">
+        <h1 class="auth-title">Welcome back</h1>
+        <p class="auth-subtitle">Sign in to your TaskFlow account</p>
+      </div>
+
+      <div id="login-error" class="alert alert-danger d-none" role="alert"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="auth-form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <div class="input-group">
+            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input type="email" id="email" name="email" class="form-control"
+                   placeholder="you@example.com" required autocomplete="email" />
+          </div>
+          <div class="invalid-feedback" id="email-err"></div>
+        </div>
+
+        <div class="auth-form-group">
+          <label class="form-label" for="password">Password</label>
+          <div class="input-group">
+            <svg class="input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" id="password" name="password" class="form-control"
+                   placeholder="Your password" required autocomplete="current-password" />
+            <button type="button" class="input-icon-right" onclick="togglePassword('password','eye-icon')" aria-label="Toggle password visibility">
+              <svg id="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <div class="invalid-feedback" id="password-err"></div>
+        </div>
+
+        <button type="submit" id="loginBtn" class="btn-tf-primary w-100 mt-2" style="padding:.65rem 1.25rem;font-size:.9375rem;border-radius:10px;justify-content:center;">
+          Sign In
+        </button>
+      </form>
+
+      <div class="auth-divider">or</div>
+
+      <p style="text-align:center;font-size:.875rem;color:var(--text-muted);">
+        Don't have an account?
+        <a href="register.html" style="color:var(--tf-primary);font-weight:600;margin-left:.2rem;">Create one free</a>
+      </p>
+
+      <div class="auth-demo-box">
+        <strong>Demo Credentials</strong>
+        <div class="auth-demo-row">
+          <span>👑 Admin</span>
+          <span style="color:var(--text-primary);font-size:.8rem;">admin@taskflow.com / admin123</span>
+          <button class="auth-demo-copy" onclick="fillDemo('admin@taskflow.com','admin123')">Use</button>
+        </div>
+        <div class="auth-demo-row" style="margin-top:.2rem;">
+          <span>👤 User &nbsp;</span>
+          <span style="color:var(--text-primary);font-size:.8rem;">user@taskflow.com &nbsp;/ user123</span>
+          <button class="auth-demo-copy" onclick="fillDemo('user@taskflow.com','user123')">Use</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer" class="tf-toast-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+  // Redirect if already logged in
+  if (localStorage.getItem('tf_token')) {
+    const user = JSON.parse(localStorage.getItem('tf_user') || '{}');
+    window.location.href = user.role === 'admin' ? 'admin.html' : 'dashboard.html';
+  }
+
+  function fillDemo(email, password) {
+    document.getElementById('email').value = email;
+    document.getElementById('password').value = password;
+    document.getElementById('loginBtn').focus();
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearFormErrors(['email', 'password']);
+    document.getElementById('login-error').classList.add('d-none');
+
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    let valid = true;
+
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      showFieldError('email', 'Please enter a valid email address.'); valid = false;
+    }
+    if (!password) {
+      showFieldError('password', 'Password is required.'); valid = false;
+    }
+    if (!valid) return;
+
+    const btn = document.getElementById('loginBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="tf-spinner"></span> Signing in…';
+
+    try {
+      const data = await api.post('/auth/login', { email, password });
+      localStorage.setItem('tf_token', data.token);
+      localStorage.setItem('tf_user', JSON.stringify(data.user));
+      showToast('Welcome back, ' + data.user.name + '! 👋', 'success');
+      setTimeout(() => {
+        window.location.href = data.user.role === 'admin' ? 'admin.html' : 'dashboard.html';
+      }, 700);
+    } catch (err) {
+      document.getElementById('login-error').textContent = err.message || 'Invalid email or password.';
+      document.getElementById('login-error').classList.remove('d-none');
+      btn.disabled = false;
+      btn.innerHTML = 'Sign In';
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow – Dashboard</title>
+  <script>(function(){var t=localStorage.getItem('tf_theme');if(t==='dark'){document.documentElement.classList.add('dark-mode');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('dark-mode');});}})();</script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">TF</div>
+      <span class="sidebar-brand-name">TaskFlow</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Main</div>
+      <a href="dashboard.html" class="active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="tasks.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        My Tasks
+      </a>
+
+      <div class="sidebar-section-label">Account</div>
+      <a href="profile.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profile
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">U</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="sidebarName">Loading…</div>
+          <div class="sidebar-user-role" id="sidebarRole">user</div>
+        </div>
+      </div>
+      <div class="sidebar-actions">
+        <button class="sidebar-action-btn theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          Theme
+        </button>
+        <button class="sidebar-logout-btn" onclick="logout()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <!-- ── Main ──────────────────────────────────────── -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <span class="topbar-title">Dashboard</span>
+      </div>
+      <div class="topbar-right">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark/light mode">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <div class="user-chip">
+          <div class="user-chip-avatar" id="topbarAvatar">U</div>
+          <span class="user-chip-name" id="topbarName">User</span>
+          <span class="user-chip-role">User</span>
+        </div>
+        <a href="tasks.html" class="btn-tf-primary" style="font-size:.8125rem;padding:.4rem .9rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New Task
+        </a>
+      </div>
+    </header>
+
+    <main class="content-area">
+      <!-- Greeting -->
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1 id="greetingTitle">Good morning 👋</h1>
+          <p id="greetingSubtitle">Here's what's happening with your tasks today.</p>
+        </div>
+        <div>
+          <span style="font-size:.8rem;color:var(--text-muted);" id="currentDate"></span>
+        </div>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-4 col-xl">
+          <div class="stat-card">
+            <div>
+              <div class="stat-card-label">Total Tasks</div>
+              <div class="stat-card-value" id="statTotal">–</div>
+              <div class="stat-card-sub">All your tasks</div>
+            </div>
+            <div class="stat-icon primary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-xl">
+          <div class="stat-card">
+            <div>
+              <div class="stat-card-label">Pending</div>
+              <div class="stat-card-value" id="statPending">–</div>
+              <div class="stat-card-sub">Not started yet</div>
+            </div>
+            <div class="stat-icon warning">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-xl">
+          <div class="stat-card">
+            <div>
+              <div class="stat-card-label">In Progress</div>
+              <div class="stat-card-value" id="statInProgress">–</div>
+              <div class="stat-card-sub">Being worked on</div>
+            </div>
+            <div class="stat-icon info">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-xl">
+          <div class="stat-card">
+            <div>
+              <div class="stat-card-label">Completed</div>
+              <div class="stat-card-value" id="statCompleted">–</div>
+              <div class="stat-card-sub">Finished tasks</div>
+            </div>
+            <div class="stat-icon success">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4 col-xl">
+          <div class="stat-card">
+            <div>
+              <div class="stat-card-label">High Priority</div>
+              <div class="stat-card-value" id="statHighPriority">–</div>
+              <div class="stat-card-sub">Needs attention</div>
+            </div>
+            <div class="stat-icon danger">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress + Upcoming -->
+      <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-5">
+          <div class="tf-card h-100">
+            <div class="tf-card-header">
+              <h2 class="tf-card-title">Task Progress</h2>
+              <span id="statOverdue" style="font-size:.75rem;color:var(--tf-danger);font-weight:600;"></span>
+            </div>
+            <div class="tf-card-body">
+              <div id="progressSection">
+                <div class="progress-row">
+                  <div class="progress-row-header">
+                    <span class="progress-row-label">
+                      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#10b981;margin-right:.5rem;"></span>
+                      Completed
+                    </span>
+                    <span class="progress-row-value" id="progressPct">0%</span>
+                  </div>
+                  <div class="progress-slim">
+                    <div class="progress-slim-bar" id="progressBar" style="width:0%;background:#10b981;"></div>
+                  </div>
+                </div>
+                <div class="progress-row">
+                  <div class="progress-row-header">
+                    <span class="progress-row-label">
+                      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#06b6d4;margin-right:.5rem;"></span>
+                      In Progress
+                    </span>
+                    <span class="progress-row-value" id="inProgressPct">0%</span>
+                  </div>
+                  <div class="progress-slim">
+                    <div class="progress-slim-bar" id="inProgressBar" style="width:0%;background:#06b6d4;"></div>
+                  </div>
+                </div>
+                <div class="progress-row">
+                  <div class="progress-row-header">
+                    <span class="progress-row-label">
+                      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f59e0b;margin-right:.5rem;"></span>
+                      Pending
+                    </span>
+                    <span class="progress-row-value" id="pendingPct">0%</span>
+                  </div>
+                  <div class="progress-slim">
+                    <div class="progress-slim-bar" id="pendingBar" style="width:0%;background:#f59e0b;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-7">
+          <div class="tf-card h-100">
+            <div class="tf-card-header">
+              <h2 class="tf-card-title">Upcoming Deadlines</h2>
+              <a href="tasks.html" class="tf-card-link">View all →</a>
+            </div>
+            <div id="upcomingList">
+              <div class="empty-state" style="padding:2rem 1rem;">
+                <div class="empty-state-icon" style="font-size:1.75rem;">📅</div>
+                <p style="font-size:.8rem;">No upcoming deadlines in the next 7 days.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Tasks -->
+      <div class="tf-card">
+        <div class="tf-card-header">
+          <h2 class="tf-card-title">Recent Tasks</h2>
+          <a href="tasks.html" class="tf-card-link">View all tasks →</a>
+        </div>
+        <div id="recentTasksList">
+          <div class="empty-state">
+            <div class="empty-state-icon">📋</div>
+            <h5>No tasks yet</h5>
+            <p>Create your first task to get started.</p>
+            <a href="tasks.html" class="btn-tf-primary mt-3 d-inline-flex" style="padding:.5rem 1.25rem;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Create Task
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toastContainer" class="tf-toast-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/dashboard.js"></script>
+<script>
+  // Populate topbar user chip
+  (function(){
+    const u = getCurrentUser();
+    if (u) {
+      const av = document.getElementById('topbarAvatar');
+      const nm = document.getElementById('topbarName');
+      if (av) av.textContent = (u.name||'U')[0].toUpperCase();
+      if (nm) nm.textContent = u.name || 'User';
+    }
+  })();
+</script>
+</body>
+</html>

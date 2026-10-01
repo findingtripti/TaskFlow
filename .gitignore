@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# Personal documentation
+PROJECT_DOCUMENTATION.md
+VIVA_QUESTIONS_AND_ANSWERS.md
+PROJECT_INTERVIEW_GUIDE.md
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

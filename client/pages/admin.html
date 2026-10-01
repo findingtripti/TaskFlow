@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow – Admin Dashboard</title>
+  <script>(function(){var t=localStorage.getItem('tf_theme');if(t==='dark'){document.documentElement.classList.add('dark-mode');document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('dark-mode');});}})();</script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- ── Admin Sidebar ──────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">TF</div>
+      <span class="sidebar-brand-name">TaskFlow</span>
+      <span class="sidebar-brand-badge">Admin</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Admin</div>
+      <a href="admin.html" class="active">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        Admin Dashboard
+      </a>
+      <a href="admin-users.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        Manage Users
+      </a>
+
+      <div class="sidebar-section-label">User Area</div>
+      <a href="dashboard.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        My Dashboard
+      </a>
+      <a href="tasks.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        My Tasks
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">A</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="sidebarName">Loading…</div>
+          <div class="sidebar-user-role" style="color:#fbbf24;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;">Admin</div>
+        </div>
+      </div>
+      <div class="sidebar-actions">
+        <button class="sidebar-action-btn theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          Theme
+        </button>
+        <button class="sidebar-logout-btn" onclick="logout()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <span class="topbar-title">Admin Dashboard</span>
+      </div>
+      <div class="topbar-right">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle dark/light mode">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <span class="admin-badge">👑 Admin</span>
+      </div>
+    </header>
+
+    <main class="content-area">
+      <div class="page-header">
+        <div class="page-header-left">
+          <h1>Platform Overview</h1>
+          <p>Monitor users, tasks, and platform health from here.</p>
+        </div>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+          <div class="stat-card">
+            <div>
+              <div class="stat-card-label">Total Users</div>
+              <div class="stat-card-value" id="statTotalUsers">–</div>
+              <div class="stat-card-sub" id="statNewUsers">– new this month</div>
+            </div>
+            <div class="stat-icon primary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card">
+            <div>
+              <div class="stat-card-label">Total Tasks</div>
+              <div class="stat-card-value" id="statTotalTasks">–</div>
+              <div class="stat-card-sub">Platform-wide</div>
+            </div>
+            <div class="stat-icon info">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card">
+            <div>
+              <div class="stat-card-label">Completed</div>
+              <div class="stat-card-value" id="statTotalCompleted">–</div>
+              <div class="stat-card-sub" id="statCompletionRate">0% completion rate</div>
+            </div>
+            <div class="stat-icon success">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card">
+            <div>
+              <div class="stat-card-label">High Priority</div>
+              <div class="stat-card-value" id="statTotalHigh">–</div>
+              <div class="stat-card-sub">Tasks needing attention</div>
+            </div>
+            <div class="stat-icon danger">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-4">
+        <!-- Task Breakdown -->
+        <div class="col-12 col-md-6">
+          <div class="tf-card h-100">
+            <div class="tf-card-header">
+              <h2 class="tf-card-title">Task Breakdown</h2>
+            </div>
+            <div class="tf-card-body">
+              <div id="taskBreakdown">
+                <div class="progress-row">
+                  <div class="progress-row-header">
+                    <span class="progress-row-label">
+                      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#10b981;margin-right:.5rem;"></span>
+                      Completed
+                    </span>
+                    <span class="progress-row-value" id="a-completedPct">–</span>
+                  </div>
+                  <div class="progress-slim"><div class="progress-slim-bar" id="a-completedBar" style="width:0%;background:#10b981;"></div></div>
+                </div>
+                <div class="progress-row">
+                  <div class="progress-row-header">
+                    <span class="progress-row-label">
+                      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#06b6d4;margin-right:.5rem;"></span>
+                      In Progress
+                    </span>
+                    <span class="progress-row-value" id="a-inProgressPct">–</span>
+                  </div>
+                  <div class="progress-slim"><div class="progress-slim-bar" id="a-inProgressBar" style="width:0%;background:#06b6d4;"></div></div>
+                </div>
+                <div class="progress-row">
+                  <div class="progress-row-header">
+                    <span class="progress-row-label">
+                      <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f59e0b;margin-right:.5rem;"></span>
+                      Pending
+                    </span>
+                    <span class="progress-row-value" id="a-pendingPct">–</span>
+                  </div>
+                  <div class="progress-slim"><div class="progress-slim-bar" id="a-pendingBar" style="width:0%;background:#f59e0b;"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Users -->
+        <div class="col-12 col-md-6">
+          <div class="tf-card h-100">
+            <div class="tf-card-header">
+              <h2 class="tf-card-title">Most Active Users</h2>
+              <a href="admin-users.html" class="tf-card-link">View all →</a>
+            </div>
+            <div id="topUsersList">
+              <div class="empty-state" style="padding:2rem 1rem;">
+                <div style="display:flex;align-items:center;justify-content:center;margin-bottom:.5rem;">
+                  <div class="tf-spinner"></div>
+                </div>
+                <p style="font-size:.8rem;">Loading users…</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Stats Row -->
+      <div class="row g-3">
+        <div class="col-6 col-md-3">
+          <div class="tf-card" style="padding:1.25rem;text-align:center;">
+            <div style="font-size:1.75rem;font-weight:800;color:var(--tf-primary);letter-spacing:-.03em;" id="statActiveUsers">–</div>
+            <div style="font-size:.78rem;color:var(--text-muted);margin-top:.3rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Active Users</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="tf-card" style="padding:1.25rem;text-align:center;">
+            <div style="font-size:1.75rem;font-weight:800;color:var(--tf-warning);letter-spacing:-.03em;" id="statTotalPending">–</div>
+            <div style="font-size:.78rem;color:var(--text-muted);margin-top:.3rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Pending Tasks</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="tf-card" style="padding:1.25rem;text-align:center;">
+            <div style="font-size:1.75rem;font-weight:800;color:var(--tf-secondary);letter-spacing:-.03em;" id="statTotalInProgress">–</div>
+            <div style="font-size:.78rem;color:var(--text-muted);margin-top:.3rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">In Progress</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="tf-card" style="padding:1.25rem;text-align:center;">
+            <div style="font-size:1.75rem;font-weight:800;color:var(--tf-success);letter-spacing:-.03em;" id="statCompletionRatePct">–</div>
+            <div style="font-size:.78rem;color:var(--text-muted);margin-top:.3rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;">Completion Rate</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="toastContainer" class="tf-toast-container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/admin.js"></script>
+</body>
+</html>
