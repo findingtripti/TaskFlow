@@ -554,28 +554,37 @@ Make sure MongoDB is running before you run the command.
 
 ## Screenshots
 
-Screenshots will be added here.
+### Login Page
 
-<!-- Add screenshot: Login Page -->
-<!-- Add screenshot: Register Page -->
-<!-- Add screenshot: User Dashboard (Light Mode) -->
-<!-- Add screenshot: User Dashboard (Dark Mode) -->
-<!-- Add screenshot: Tasks Page with filters and pagination -->
-<!-- Add screenshot: Create / Edit Task form -->
-<!-- Add screenshot: Profile Page -->
-<!-- Add screenshot: Admin Dashboard -->
-<!-- Add screenshot: Admin User Management -->
-<!-- Add screenshot: Mobile view with off-canvas sidebar -->
+![TaskFlow Login](screenshots/01-login.png)
 
-| Page | Preview |
-|------|---------|
-| Login | _Coming soon_ |
-| Dashboard | _Coming soon_ |
-| Tasks | _Coming soon_ |
-| Admin Dashboard | _Coming soon_ |
-| Mobile View | _Coming soon_ |
+### User Dashboard – Light Mode
+
+![TaskFlow Dashboard Light](screenshots/02-dashboard-light.png)
+
+### My Tasks
+
+![TaskFlow My Tasks](screenshots/03-my-tasks.png)
+
+### Create / Edit Task
+
+![TaskFlow Create Edit Task](screenshots/04-create-edit-task.png)
+
+### User Dashboard – Dark Mode
+
+![TaskFlow Dashboard Dark](screenshots/05-dashboard-dark.png)
+
+### Admin Dashboard
+
+![TaskFlow Admin Dashboard](screenshots/06-admin-dashboard.png)
+
+### Admin – Manage Users
+
+![TaskFlow Manage Users](screenshots/07-manage-users.png)
 
 ---
+
+
 
 ## Testing / Verified Functionality
 
